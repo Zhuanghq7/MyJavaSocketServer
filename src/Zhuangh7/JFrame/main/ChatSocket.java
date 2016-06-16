@@ -24,7 +24,7 @@ public class ChatSocket extends Thread {
         } catch (UnsupportedEncodingException e) {  
             e.printStackTrace();  
         } catch (IOException e) {  
-            MainClass.print("断开了一个客户端链接");  
+            MainClass.print("断开了一个客户端链接_out");  
             ChatManager.getChatManager().remove(this);  
             e.printStackTrace();  
         }  
@@ -56,17 +56,23 @@ public class ChatSocket extends Thread {
     					new InputStreamReader(  
     							socket.getInputStream(),"UTF-8"));  
     			String line = null;  
-    			while ((line = br.readLine()) != null) {  
+    			boolean tag = true;
+    			while ((line = br.readLine()) != null && tag ) {
     				MainClass.print(line);  
-    				ChatManager.getChatManager().publish(this, line);  
+    				ChatManager.getChatManager().publish(this, line);
+    				if(line.equals("close")){
+    					tag = false;
+    				}
     			}  
 	            br.close();
-	            MainClass.print("断开了一个客户端链接");  
+	            socket.close();
+	            MainClass.print("断开了一个客户端链接_1");
 	            ChatManager.getChatManager().remove(this);  
+	            MainClass.print("剩余客户端"+ServerListener.Client_num);
 	        } catch (UnsupportedEncodingException e) {  
 	            e.printStackTrace();  
 	        } catch (IOException e) {  
-	        	MainClass.print("断开了一个客户端链接");  
+	        	MainClass.print("断开了一个客户端链接_ioerror");  
 	            ChatManager.getChatManager().remove(this);  
 	            e.printStackTrace();  
 	        }  

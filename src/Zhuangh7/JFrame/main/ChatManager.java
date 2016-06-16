@@ -26,7 +26,7 @@ public class ChatManager {
   public void publish(ChatSocket cs,String out) {  
       for (int i = 0; i < vector.size(); i++) {  
           ChatSocket csChatSocket = vector.get(i);  
-          if (!cs.equals(csChatSocket)) {  
+          if (!cs.equals(csChatSocket)&&csChatSocket!=null) {  
               csChatSocket.out(out);  
           }  
       }  
